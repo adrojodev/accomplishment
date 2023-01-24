@@ -88,14 +88,6 @@ function App() {
         starter={starter}
         userStatus={userStatus}
       />
-      <div
-        className="flex flex-col items-center justify-center w-screen h-screen text-center px-4 gap-2"
-        style={{ display: userStatus === task.key ? "flex" : "none" }}
-      >
-        <h1 className="text-3xl">✅</h1>
-        <h1 className="font-bold text-3xl">You already accomplished today!</h1>
-        <p className="mt-8">Come tomorrow for a new challenge!</p>
-      </div>
       <TaskScreen
         starter={starter}
         setStarter={setStarter}
