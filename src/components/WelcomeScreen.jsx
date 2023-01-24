@@ -33,13 +33,15 @@ export default function WelcomeScreen(props) {
         </h1>
       </div>
       <div className="flex flex-col items-center gap-2">
-        {task.requirements.map((requirement, index) => {
-          return (
-            <Pill emoji={requirement.emoji} key={index}>
-              {requirement.text}
-            </Pill>
-          );
-        })}
+        {task
+          ? task.requirements.map((requirement, index) => {
+              return (
+                <Pill emoji={requirement.emoji} key={index}>
+                  {requirement.text}
+                </Pill>
+              );
+            })
+          : null}
       </div>
       <div className="flex flex-col gap-2">
         <Button
