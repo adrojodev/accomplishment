@@ -4,15 +4,17 @@ import Button from "./Button";
 
 export default function TaskScreen(props) {
   const taskStatus = props.taskStatus;
+  const setTaskStatus = props.setTaskStatus;
   const task = props.tasks;
-  const seconds = props.seconds;
-  const setSeconds = props.setSeconds;
-  const minutes = props.minutes;
-  const setMinutes = props.setMinutes;
-  const time = props.time;
-  const setTime = props.setTime;
+  const taskTime = props.taskTime;
+  const userStatus = props.userStatus;
+  const setUserStatus = props.setUserStatus;
+  const setTaskTime = props.setTaskTime;
+  const starter = props.starter;
 
-  const [result, setResult] = useState(false);
+  const [minutes, setMinutes] = useState("00");
+  const [seconds, setSeconds] = useState("00");
+  const [time, setTime] = useState("00:00");
 
   // prettier-ignore
   const text = `#DailyAccomplishment ${task.number}
@@ -21,45 +23,40 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (!result) {
-        if (time !== "00:00") {
-          if (parseInt(seconds) <= 10 && seconds !== "00") {
-            setSeconds(`0${parseInt(seconds) - 1}`);
+      if (taskStatus) {
+        setTaskTime(taskTime - 1);
+        if (taskTime >= 1) {
+          if (`${Math.floor(taskTime / 60)}`.length <= 1) {
+            setMinutes(`0${Math.floor(taskTime / 60)}`);
           } else {
-            if (seconds === "00") {
-              if (parseInt(minutes) <= 0) {
-                setTime("00:00");
-              } else {
-                setSeconds("59");
-                if (parseInt(minutes) <= 10) {
-                  setMinutes(`0${parseInt(minutes) - 1}`);
-                } else {
-                  setMinutes(`${parseInt(minutes) - 1}`);
-                }
-              }
-            } else {
-              setSeconds(`${parseInt(seconds) - 1}`);
-            }
+            setMinutes(`${Math.floor(taskTime / 60)}`);
           }
-        }
-      }
 
-      if (result) {
-        setTime("00:00");
-        localStorage.setItem("status", `${task.key}`);
-      } else {
-        setTime(`${minutes}:${seconds}`);
+          if (`${taskTime % 60}`.length <= 1) {
+            setSeconds(`0${taskTime % 60}`);
+          } else {
+            setSeconds(`${taskTime % 60}`);
+          }
+
+          setTime(`${minutes}:${seconds}`);
+        } else {
+          setTime("00:00");
+          setTaskStatus(false);
+          localStorage.setItem("userStatus", "not completed");
+        }
       }
     }, 1000);
 
     return () => {
       clearInterval(timer);
+      setUserStatus(localStorage.getItem("userStatus"));
     };
   });
 
   const win = () => {
     setTime("00:00");
-    setResult(true);
+    setTaskStatus(false);
+    localStorage.setItem("userStatus", task.key);
   };
 
   const tweet = () => {
@@ -76,12 +73,22 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
   return (
     <div
       className="bg-black text-white absolute h-screen w-screen flex flex-col items-center justify-center px-8"
-      style={{ display: taskStatus === "timer" ? "flex" : "none" }}
+      style={{
+        display:
+          userStatus === task.key || userStatus === "not completed"
+            ? "flex"
+            : starter
+            ? "flex"
+            : "none",
+      }}
     >
       <div
         className="flex flex-col items-center gap-8"
         style={{
-          display: time !== "00:00" ? "flex" : "none",
+          display:
+            userStatus === task.key || userStatus === "not completed"
+              ? "none"
+              : "flex",
         }}
       >
         <div className="flex flex-col items-center gap-1">
@@ -91,7 +98,7 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
           >
             {time}
           </h3>
-          <h1 className="text-4xl font-bold">{task.task}</h1>
+          <h1 className="text-4xl font-bold text-center">{task.task}</h1>
           <p className="text-lg">{task.phrase}</p>
         </div>
         <Button handleClick={win} className="bg-green-500 text-white text-xl">
@@ -100,7 +107,14 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
       </div>
       <div
         className="flex flex-col items-center text-center gap-10"
-        style={{ display: time === "00:00" && result ? "flex" : "none" }}
+        style={{
+          display:
+            userStatus === task.key || userStatus === "not completed"
+              ? userStatus === task.key
+                ? "flex"
+                : "none"
+              : "none",
+        }}
       >
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-bold">Congrats! 🎉</h1>
@@ -118,7 +132,14 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
       </div>
       <div
         className="flex flex-col items-center text-center gap-10"
-        style={{ display: time === "00:00" && !result ? "flex" : "none" }}
+        style={{
+          display:
+            userStatus === task.key || userStatus === "not completed"
+              ? userStatus !== task.key
+                ? "flex"
+                : "none"
+              : "none",
+        }}
       >
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-4xl font-bold">Today was not the day 😭</h1>

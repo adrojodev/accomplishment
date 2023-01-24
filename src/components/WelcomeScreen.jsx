@@ -3,10 +3,10 @@ import Pill from "./Pill";
 
 export default function WelcomeScreen(props) {
   const task = props.task;
-  const userStatus = props.userStatus;
   const setModalVisibility = props.setModalVisibility;
   const start = props.start;
-  const taskStatus = props.taskStatus;
+  const starter = props.starter;
+  const userStatus = props.userStatus;
 
   const openModal = () => {
     setModalVisibility(true);
@@ -17,7 +17,11 @@ export default function WelcomeScreen(props) {
       className="w-screen h-screen flex flex-col justify-center items-center gap-6 px-5"
       style={{
         display:
-          userStatus !== task.key ? (taskStatus ? "none" : "flex") : "none",
+          userStatus === task.key || userStatus === "not completed"
+            ? "none"
+            : starter
+            ? "none"
+            : "flex",
       }}
     >
       <div className="flex flex-col items-center gap-2">

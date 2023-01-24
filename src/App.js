@@ -8,12 +8,12 @@ import TaskScreen from "./components/TaskScreen";
 import { useEffect } from "react";
 
 function App() {
-  const [minutes, setMinutes] = useState("99");
-  const [seconds, setSeconds] = useState("99");
-  const [time, setTime] = useState("99:100");
   const [modalVisibility, setModalVisibility] = useState(false);
   const [taskStatus, setTaskStatus] = useState(false);
-  const [userStatus, setUserStatus] = useState("not");
+  const [today, setToday] = useState();
+  const [starter, setStarter] = useState();
+  const [userStatus, setUserStatus] = useState(false);
+  const [taskTime, setTaskTime] = useState();
   const [task, setTask] = useState({
     task: "",
     emoji: "",
@@ -30,12 +30,44 @@ function App() {
   });
 
   useEffect(() => {
-    setUserStatus(localStorage.getItem("status"));
+    setUserStatus(localStorage.getItem("userStatus"));
+
+    const date = new Date();
+    const today = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}`;
+
+    if (localStorage.getItem("lastDate") !== today) {
+      localStorage.setItem("lastDate", today);
+      localStorage.removeItem("userStatus");
+    }
+
     fetch(
       "https://daily-accomplishment-a5a0d-default-rtdb.firebaseio.com/accomplishment.json"
     )
       .then((response) => response.json())
-      .then((data) => setTask(data));
+      .then((data) => {
+        data.map((task) => {
+          if (task.date == today) {
+            setTask(task);
+            setTaskTime(task.time);
+          } else {
+            setTask({
+              task: "Today is your free day",
+              emoji: "🏖️",
+              number: "000",
+              requirements: [
+                { emoji: "⏰", text: "No worries" },
+                { emoji: "😎", text: "Attitude" },
+                { emoji: "🥰", text: "Self love" },
+              ],
+              time: 300,
+              phrase: "Happy free day!",
+              accomplishedTask: "had a free day",
+            });
+          }
+        });
+      });
   }, []);
 
   const confirm = () => {
@@ -43,50 +75,37 @@ function App() {
   };
 
   const start = () => {
-    if (`${Math.floor(task.time / 60)}`.length <= 1) {
-      setMinutes(`0${Math.floor(task.time / 60)}`);
-    } else {
-      setMinutes(`${Math.floor(task.time / 60)}`);
-    }
-
-    if (`${task.time % 60}`.length <= 1) {
-      setSeconds(`0${task.time % 60}`);
-    } else {
-      setSeconds(`${task.time % 60}`);
-    }
-
-    setTime(`${minutes}:${seconds}`);
-
-    setTaskStatus("timer");
+    setTaskStatus(true);
+    setStarter(true);
   };
 
   return (
     <div className="flex">
       <WelcomeScreen
         task={task}
-        userStatus={userStatus}
         setModalVisibility={setModalVisibility}
         start={start}
+        starter={starter}
+        userStatus={userStatus}
       />
       <div
         className="flex flex-col items-center justify-center w-screen h-screen text-center px-4 gap-2"
-        style={{ display: userStatus == task.key ? "flex" : "none" }}
+        style={{ display: userStatus === task.key ? "flex" : "none" }}
       >
         <h1 className="text-3xl">✅</h1>
         <h1 className="font-bold text-3xl">You already accomplished today!</h1>
         <p className="mt-8">Come tomorrow for a new challenge!</p>
       </div>
       <TaskScreen
-        userStatus={userStatus}
+        starter={starter}
+        setStarter={setStarter}
         taskStatus={taskStatus}
         setTaskStatus={setTaskStatus}
+        userStatus={userStatus}
+        setUserStatus={setUserStatus}
         tasks={task}
-        seconds={seconds}
-        setSeconds={setSeconds}
-        minutes={minutes}
-        setMinutes={setMinutes}
-        time={time}
-        setTime={setTime}
+        taskTime={taskTime}
+        setTaskTime={setTaskTime}
       ></TaskScreen>
       <Modal
         visibility={modalVisibility}
