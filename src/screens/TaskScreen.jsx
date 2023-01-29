@@ -102,7 +102,7 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
             {time}
           </h3>
           <h1 className="text-4xl font-bold text-center">{task.task}</h1>
-          <p className="text-lg">{task.phrase}</p>
+          <p className="text-lg text-center">{task.phrase}</p>
         </div>
         <Button handleClick={win} className="bg-green-500 text-white text-xl">
           Finished
