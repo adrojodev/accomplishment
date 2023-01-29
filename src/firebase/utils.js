@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCbFEOSBNcZeQ7qV9q4AW3kRDdhNRntHR4",
-  authDomain: "daily-accomplishment-a5a0d.firebaseapp.com",
-  databaseURL: "https://daily-accomplishment-a5a0d-default-rtdb.firebaseio.com",
-  projectId: "daily-accomplishment-a5a0d",
-  storageBucket: "daily-accomplishment-a5a0d.appspot.com",
-  messagingSenderId: "372709106276",
-  appId: "1:372709106276:web:0970eb42303750adbeb571",
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASEURL,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_APPID,
 };
 
 initializeApp(firebaseConfig);
