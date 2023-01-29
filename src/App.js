@@ -9,6 +9,7 @@ import { useEffect } from "react";
 function App() {
   useEffect(() => {
     document.body.style.height = "-webkit-fill-available";
+    document.documentElement.style.height = "-webkit-fill-available";
   }, []);
   return (
     <BrowserRouter>
