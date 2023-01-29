@@ -44,17 +44,6 @@ export default function MainApp() {
           if (task.date === today) {
             setTask(task);
             setTaskTime(task.time);
-          } else {
-            setTask({
-              task: "Today is your free day",
-              emoji: "🏖️",
-              number: "000",
-              requirements: ["⏰ No worries", "😎 Attitude", "🥰 Self love"],
-              time: 300,
-              phrase: "Happy free day!",
-              accomplishedTask: "had a free day",
-              key: "cuidhiucnewiucbwein",
-            });
           }
 
           return task;
