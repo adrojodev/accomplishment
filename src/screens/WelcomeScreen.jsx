@@ -1,5 +1,5 @@
-import Button from "./Button";
-import Pill from "./Pill";
+import Button from "../components/Button";
+import Pill from "../components/Pill";
 
 export default function WelcomeScreen(props) {
   const task = props.task;
@@ -14,7 +14,7 @@ export default function WelcomeScreen(props) {
 
   return (
     <div
-      className="w-screen h-screen flex flex-col justify-center items-center gap-6 px-5"
+      className="w-screen h-screen flex flex-col justify-center items-center gap-8 px-5"
       style={{
         display:
           userStatus === task.key || userStatus === "not completed"
@@ -29,28 +29,24 @@ export default function WelcomeScreen(props) {
           Become better, complete a task today
         </h4>
         <h1 className="text-3xl font-bold text-center">
-          What you need for today task?
+          What do you need for today task?
         </h1>
       </div>
       <div className="flex flex-col items-center gap-2">
         {task
           ? task.requirements.map((requirement, index) => {
-              return (
-                <Pill emoji={requirement.emoji} key={index}>
-                  {requirement.text}
-                </Pill>
-              );
+              return <Pill key={index}>{requirement}</Pill>;
             })
           : null}
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         <Button
           className="bg-purple-500 text-white text-xl"
           handleClick={start}
         >
           Start task
         </Button>
-        <Button handleClick={openModal} className="text-sm" isText>
+        <Button handleClick={openModal} className="text-sm underline" isText>
           What is this?
         </Button>
       </div>

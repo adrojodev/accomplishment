@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import Button from "./Button";
+
+import Confetti from "react-confetti";
+
+import Button from "../components/Button";
 
 export default function TaskScreen(props) {
   const taskStatus = props.taskStatus;
@@ -72,7 +75,7 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
 
   return (
     <div
-      className="bg-black text-white absolute h-screen w-screen flex flex-col items-center justify-center px-8"
+      className="bg-black text-white absolute h-screen w-screen flex flex-col items-center justify-center px-8 transition-all"
       style={{
         display:
           userStatus === task.key || userStatus === "not completed"
@@ -105,6 +108,7 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
           Finished
         </Button>
       </div>
+
       <div
         className="flex flex-col items-center text-center gap-10"
         style={{
@@ -116,11 +120,12 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
               : "none",
         }}
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-white">
           <h1 className="text-4xl font-bold">Congrats! 🎉</h1>
           <h2 className="text-2xl">You {task.accomplishedTask}!</h2>
           <p className="text-md">Now share it as the winner you're!</p>
         </div>
+        <Confetti run={userStatus === task.key}></Confetti>
         <div className="flex flex-col gap-2 items-center">
           <Button handleClick={tweet} className="bg-blue-400 text-white">
             Tweet it!
@@ -130,6 +135,7 @@ ${task.emoji} ${task.emoji} ${task.emoji}`;
           </Button>
         </div>
       </div>
+
       <div
         className="flex flex-col items-center text-center gap-10"
         style={{
