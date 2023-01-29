@@ -101,15 +101,15 @@ export default function MainApp() {
         ></TaskScreen>
         <Modal
           visibility={modalVisibility}
-          emoji="🤔"
+          emoji="💜"
           title="What is this all about?"
           buttonText="Great!"
           handleConfirm={confirm}
           simple
         >
+          Improve your mindset by reaching something new everyday. <br />
           Daily accomplishment is an app that will give you a daily task to
-          complete. This will help you improve your mindset by reaching
-          something new everyday.
+          complete!
         </Modal>
       </div>
       <div
