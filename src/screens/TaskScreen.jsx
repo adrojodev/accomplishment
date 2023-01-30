@@ -20,7 +20,9 @@ export default function TaskScreen(props) {
   const [time, setTime] = useState("00:00");
 
   // prettier-ignore
-  const text = `#DailyAccomplishment ${task.number}
+  const text = `#DailyAccomplishment ${task.number} 
+  
+I ${task.accomplishedTask}!
 
 ${task.emoji} ${task.emoji} ${task.emoji}`;
 

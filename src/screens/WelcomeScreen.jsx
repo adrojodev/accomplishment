@@ -32,7 +32,7 @@ export default function WelcomeScreen(props) {
           What do you need for today task?
         </h1>
       </div>
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-2 bg-gray-100 rounded-xl px-3 py-3">
         {task
           ? task.requirements.map((requirement, index) => {
               return <Pill key={index}>{requirement}</Pill>;
@@ -44,7 +44,7 @@ export default function WelcomeScreen(props) {
           className="bg-purple-500 text-white text-xl"
           handleClick={start}
         >
-          Start task
+          Reveal the task
         </Button>
         <Button handleClick={openModal} className="text-sm underline" isText>
           What is this?
