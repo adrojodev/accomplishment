@@ -29,7 +29,7 @@ export default function WelcomeScreen(props) {
           Become better, complete a task today
         </h4>
         <h1 className="text-3xl font-bold text-center">
-          What do you need for today task?
+          This is what you need for today task:
         </h1>
       </div>
       <div className="flex flex-col items-center gap-2 bg-gray-100 rounded-xl px-3 py-3">
